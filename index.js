@@ -1,13 +1,14 @@
-console.log('start Node js')
-debugger;
-var calculateMean = (numbers) => {
-    let total = 0;
-    debugger;
-    numbers.forEach((item) => {
-        total += item;
-        console.log(`total = ${total}, number is ${item}`)
-    })
-    console.log(`Result = ${total}`)
-}
-
-calculateMean([1,2,3,4,5,6,7,8,9])
+let http = require('http')
+const port = 1234
+const server = http.createServer((req, res) => {
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write("Response from NodeJs");
+        const ipAddress = req.socket.remoteAddress;
+        console.log(`Request from ${ipAddress}`);
+        res.write(`Your IP address is ${ipAddress}\n`);
+        res.write(`Request's URL: ${req.url}\n`);
+        res.write(`Detail request: ${JSON.stringify(require('url').parse(req.url, true))}`)
+        res.end();
+    }
+).listen(port);
+console.log(`Server is running on port ${port}`)
