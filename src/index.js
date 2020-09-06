@@ -1,24 +1,25 @@
-console.log("Working with files")
-var fileManager = require("./fileManager")
-const fileName = __dirname + '/../data/temp.txt'
-fileManager.createNewFile(fileName)
+const EventEmitter = require(`events`)
+class Customer extends EventEmitter {
+    constructor(name, gender) {
+        super();
+        this.name = name;
+        this.gender = gender;
+    }
+};
 
-let jsonObject = {
-    "foods": [
-        {
-            "foodName": "Com",
-            "foodDescription": "gao luoc"
-        },
-        {
-            "foodName": "Pho",
-            "foodDescription": "My nau voi nuoc dung"
-        }
-    ],
-    "resultCode": 200,
-    "restaurantName": "Mon Viet"
-}
+const callbackFunction = (customer,foods) => {
+    for (let index in foods) {
+        console.log(`${customer.name} call ${foods[index]}`);
+    };
+};
 
-jsonObject.address = "Hoang Mai, Hanoi";
+const Trung = new Customer("Trung", "male");
+Trung.on('eventCallFood', callbackFunction);
 
-fileManager.saveJsonObjectToFile(jsonObject, fileName);
-fileManager.readJsonObjectFromFile(fileName);
+const Thu = new Customer("Thu", "female");
+Thu.on('eventCallFood', callbackFunction);
+
+console.log(`Do something...`);
+console.log(`Do task ...`);
+Trung.emit('eventCallFood', Trung,["Com", "Pho"]);
+Thu.emit('eventCallFood', Thu, ["Pizza", "Coke"]);
